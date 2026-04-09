@@ -26,7 +26,16 @@ label.success {
     padding: 5px;
 }
 
-#vpn-widget,
+/* Premium Global Background for VPN Widget */
+#vpn-widget {
+    margin: 0;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(20, 25, 45, 1) 0%, rgba(8, 8, 12, 1) 100%),
+        radial-gradient(circle at 100% 0%, rgba(45, 120, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(138, 110, 255, 0.08) 0%, transparent 60%);
+    background-color: #08080c;
+}
+
 #login-widget {
     margin: 10px;
 }
@@ -45,10 +54,11 @@ label.success {
 #bug-report-content,
 #bug-report-dialog buttonbox,
 #early-access-dialog buttonbox,
-.dialog-action-area{
+.dialog-action-area {
     margin: 20px;
 }
-.dialog-action-area > button {
+
+.dialog-action-area>button {
     margin-left: 5px;
 }
 
@@ -104,6 +114,7 @@ label.signal-danger {
 
 #connection-status-label {
     font-weight: bold;
+    font-size: 1.05em;
 }
 
 #port-forwarding-widget {
@@ -133,7 +144,7 @@ label.signal-danger {
     border-radius: 5px;
 }
 
-#split-tunneling-app-selection-window viewport > box {
+#split-tunneling-app-selection-window viewport>box {
     margin: 0px 0px 0px 5px;
 }
 
@@ -156,15 +167,15 @@ label.signal-danger {
     border: 1px solid rgba(155, 155, 155, 0.2);
 }
 
-#two-factor-auth-widget > label.two-factor-auth-stack-title {
+#two-factor-auth-widget>label.two-factor-auth-stack-title {
     font-size: 1.3em;
     font-weight: bold;
     margin-bottom: 0.5em;
 }
 
-.default-loading-widget-label{
+.default-loading-widget-label {
     margin-left: 1.8em;
-	margin-right: 1.8em;
+    margin-right: 1.8em;
 }
 
 
@@ -239,7 +250,7 @@ label.signal-danger {
     border-radius: 4px;
 }
 
-.nps-score-button + .nps-score-button {
+.nps-score-button+.nps-score-button {
     margin-left: 4px;
 }
 
@@ -284,4 +295,232 @@ label.signal-danger {
     font-size: 14px;
     font-weight: 400;
     margin: 12px 0 0 0;
+}
+
+/* VPN main: server browse panel (compact Windows-like layout) */
+#server-list-panel {
+    background-color: @background-weak;
+    border: 1px solid @border-norm;
+    border-radius: 12px;
+    padding: 10px 10px 8px 10px;
+}
+
+#server-list-panel #search-entry {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin: 4px 8px 12px 8px;
+    min-height: 40px;
+}
+
+#server-list-panel #search-entry:focus {
+    border-color: rgba(138, 110, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.country-row {
+    margin: 1px 6px;
+    border-radius: 10px;
+    padding: 8px 12px;
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.country-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.country-header-row {
+    padding: 6px 8px;
+    border-radius: 8px;
+}
+
+.server-row {
+    padding: 4px 8px 4px 12px;
+    border-radius: 6px;
+    margin-left: 2px;
+}
+
+.server-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+#server-list-widget {
+    margin-top: 4px;
+}
+
+/* =============================================================
+   3-PANEL VPN LAYOUT — matching Windows Proton VPN UI
+   ============================================================= */
+
+/* ── Glass Panel Base ────────────────────────────────────────── */
+.glass-panel {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Left sidebar (server list panel) ───────────────────────── */
+#server-list-panel {
+    background-color: rgba(0, 0, 0, 0.3);
+    /* Translucent left sidebar */
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
+    padding: 12px 10px;
+    min-width: 290px;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+#server-list-panel #search-entry {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 4px 8px 16px 8px;
+    min-height: 44px;
+    color: white;
+}
+
+/* ── Center panel ───────────────────────────────────────────── */
+/* Center panel background */
+#vpn-center-panel {
+    background-color: transparent;
+}
+
+/* Map area container — fully transparent to see global bg */
+#vpn-map-area {
+    background-image:
+        radial-gradient(circle at center, rgba(138, 110, 255, 0.04), transparent 70%);
+    background-color: transparent;
+    border-radius: 0;
+}
+
+/* Header area padding and centered text */
+#vpn-connection-status-widget {
+    padding: 40px 24px 12px 24px;
+}
+
+#vpn-server-name-label {
+    font-size: 2.3em;
+    font-weight: 900;
+    color: white;
+    margin-bottom: 6px;
+    letter-spacing: -0.8px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+#connection-status-label {
+    font-size: 1.1em;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+    margin-bottom: 28px;
+    letter-spacing: 0.2px;
+}
+
+/* Action buttons row (Change server / Disconnect) */
+#quick-connect-button-row {
+    margin: 0 24px 40px 24px;
+}
+
+button.vpn-action-btn {
+    min-width: 180px;
+    min-height: 52px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.06);
+    background-image: none;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.vpn-action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    margin-top: -2px;
+}
+
+button.vpn-action-btn:active {
+    margin-top: 0;
+}
+
+/* Bottom Info Bar Style — Glass Bar */
+#vpn-bottom-info-bar {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 24px 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 0;
+}
+
+label.info-label {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+label.info-value {
+    font-size: 1.08em;
+    color: white;
+    font-weight: 700;
+}
+
+/* ── Right sidebar ──────────────────────────────────────────── */
+#vpn-right-sidebar {
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Translucent right sidebar */
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: none;
+    border-top: none;
+    border-bottom: none;
+    min-width: 84px;
+    padding: 16px 0;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+}
+
+button.feature-sidebar-btn {
+    background: transparent;
+    background-image: none;
+    border: none;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 10px 4px;
+    margin: 4px 8px;
+    min-width: 68px;
+    min-height: 72px;
+    outline: none;
+    box-shadow: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.feature-sidebar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+button.feature-sidebar-btn:active {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.feature-sidebar-icon {
+    -gtk-icon-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2px;
+}
+
+button.feature-sidebar-btn:hover .feature-sidebar-icon {
+    color: white;
+    -gtk-icon-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+label.feature-sidebar-label {
+    font-size: 0.68em;
+    color: @text-weak;
+    margin-top: 2px;
 }

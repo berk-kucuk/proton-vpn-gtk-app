@@ -55,15 +55,23 @@ class VPNConnectionStatusWidget(Gtk.Box):
         self._controller = controller
         self._notifications = notifications
 
+        # PRIMARY label — shows server name when connected ("Fastest free server")
+        self._server_name_label = Gtk.Label(label="")
+        self._server_name_label.set_name("vpn-server-name-label")
+        self._server_name_label.set_wrap(True)
+        self._server_name_label.set_max_width_chars(1)
+        self._server_name_label.set_halign(Gtk.Align.CENTER)
+
+        # SUBTITLE label — shows server code or disconnected message
         self._connection_status_label = Gtk.Label(label="")
         self._connection_status_label.set_name("connection-status-label")
         self._connection_status_label.set_wrap(True)
-        # Setting max_width_chars to a small value prevents the label from
-        # requesting extra horizontal space, forcing it to wrap within its
-        # allocated width instead.
         self._connection_status_label.set_max_width_chars(1)
+        self._connection_status_label.set_halign(Gtk.Align.CENTER)
+
         self._loading_widget = self._build_loading_connection_widget()
 
+        self.append(self._server_name_label)
         self.append(self._connection_status_label)
 
         self._port_forward_revealer: Optional[PortForwardRevealer] = None
@@ -102,47 +110,56 @@ class VPNConnectionStatusWidget(Gtk.Box):
     def _update_connection_status_label(self, connection_state: states.State):
         connection = connection_state.context.connection
 
-        label = ""
+        primary = ""
+        subtitle = ""
         if isinstance(connection_state, states.Disconnected):
-            label = "You are disconnected"
+            primary = ""
+            subtitle = "You are disconnected"
             self._overlay_widget.hide()
         elif isinstance(connection_state, states.Connecting):
+            primary = "Connecting…"
+            subtitle = f"to {connection.server_name}" if connection else ""
             self._loading_widget.set_label(f"Connecting to {connection.server_name}")
             self._overlay_widget.show(self._loading_widget)
         elif isinstance(connection_state, states.Connected):
-            label = f"You are connected to {connection.server_name}"
+            # Show "Fastest free server" style header
+            primary = "Connected"
+            subtitle = connection.server_name if connection else ""
             self._overlay_widget.hide()
             if self._split_tunneling_enabled:
                 self._notifications.show_info_message(
                     message=SPLIT_TUNNELING_APP_RESTART_MESSAGE
                 )
         elif isinstance(connection_state, states.Disconnecting):
-            label = f"Disconnecting from {connection.server_name}"
+            primary = "Disconnecting…"
+            subtitle = f"from {connection.server_name}" if connection else ""
         elif isinstance(connection_state, states.Error):
             last_connection_event = connection_state.context.event
-            label = "Connection error"
+            primary = "Connection error"
+            subtitle = ""
             if isinstance(last_connection_event, events.TunnelSetupFailed):
-                label = f"{label}: tunnel setup failed"
+                subtitle = "Tunnel setup failed"
             elif isinstance(last_connection_event, events.AuthDenied):
-                label = f"{label}: authentication denied"
+                subtitle = "Authentication denied"
             elif isinstance(last_connection_event, events.Timeout):
-                label = f"{label}: timeout"
+                subtitle = "Timeout"
             elif isinstance(last_connection_event, events.DeviceDisconnected):
-                label = f"{label}: device disconnected"
+                subtitle = "Device disconnected"
             elif isinstance(last_connection_event, events.MaximumSessionsReached):
-                label = f"{label}: session limit reached"
+                subtitle = "Session limit reached"
                 self._notifications.show_error_dialog(
                     message=self.MAXIMUM_SESSIONS_ERROR,
-                    title=label
+                    title=primary
                 )
-
             self._overlay_widget.hide()
 
         # This condition will be removed once we remove the feature flag.
         if self._port_forward_revealer:
             self._port_forward_revealer.on_new_state(connection_state)
 
-        self._connection_status_label.set_label(label)
+        self._server_name_label.set_label(primary)
+        self._server_name_label.set_visible(bool(primary))
+        self._connection_status_label.set_label(subtitle)
 
     @property
     def _split_tunneling_enabled(self) -> bool:

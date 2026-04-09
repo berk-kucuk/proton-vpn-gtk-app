@@ -135,6 +135,7 @@ class CountryHeader(Gtk.Box):  # pylint: disable=too-many-instance-attributes
         self._expanded_img = Gtk.Image.new_from_icon_name("pan-up-symbolic")
 
         self._build_ui(connection_state)
+        self.add_css_class("country-header-row")
 
         # The following setters needs to be called after the UI has been built
         # as they need to modify some UI widgets.
@@ -386,6 +387,8 @@ class DeferredCountryRow(Gtk.Box):  # pylint: disable=too-many-instance-attribut
             show_country_servers: bool = False,
     ):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
+
+        self.add_css_class("country-row")
 
         self._controller = controller
         self._indexed_server_rows: dict[str, ServerRow] = {}

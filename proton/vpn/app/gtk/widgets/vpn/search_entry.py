@@ -35,7 +35,8 @@ class SearchEntry(Gtk.SearchEntry):
     def __init__(self):
         super().__init__()
         self.set_name("search-entry")
-        self.props.placeholder_text = "Press Ctrl+F to search"  # pylint: disable=no-member
+        self.add_css_class("server-browse-entry")
+        self.props.placeholder_text = "Browse from…"  # pylint: disable=no-member
         self.connect("request-focus", lambda _: self.grab_focus())  # pylint: disable=no-member, disable=line-too-long # noqa: E501 # nosemgrep: python.lang.correctness.return-in-init.return-in-init
 
     @GObject.Signal(name="request_focus", flags=GObject.SignalFlags.ACTION)

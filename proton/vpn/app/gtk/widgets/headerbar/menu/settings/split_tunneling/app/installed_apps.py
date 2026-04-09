@@ -53,7 +53,7 @@ def _check_is_flatpak(app: Gio.AppInfo) -> bool:
     command_line = app.get_commandline()
     if command_line is None:
         return False
-    return command_line.startswith("flatpak") or command_line.startswith("/usr/bin/flatpak")
+    return "flatpak" in command_line
 
 
 def _get_flatpak_executable(app: Gio.AppInfo) -> str:
@@ -80,7 +80,7 @@ def _check_is_snap(app: Gio.AppInfo) -> bool:
     command_line = app.get_commandline()
     if command_line is None:
         return False
-    return command_line.startswith("/snap/bin/")
+    return "snap/bin/" in command_line or command_line.startswith("snap ")
 
 
 def _get_snap_executable(app: Gio.AppInfo) -> str:
@@ -89,7 +89,7 @@ def _get_snap_executable(app: Gio.AppInfo) -> str:
     Returns the transformed string or None if the exe string can't be parsed.
     """
     command_line = app.get_commandline()
-    re_result = re.search(r"/snap/bin/([\w\-.]*).", command_line)
+    re_result = re.search(r"snap/bin/([\w\-.]*).", command_line)
 
     if not re_result:
         raise DesktopFileParsingError(f"Could not parse snap app ID from: {command_line}")

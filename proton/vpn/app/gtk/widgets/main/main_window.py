@@ -38,8 +38,8 @@ from proton.vpn.app.gtk.widgets.main.pull_notifications.nps_survey_modal import 
 class MainWindow(Gtk.ApplicationWindow):
     """Main window."""
 
-    WIDTH = 450
-    HEIGHT = 700
+    WIDTH = 1010
+    HEIGHT = 660
 
     # pylint: disable=too-many-arguments
     def __init__(

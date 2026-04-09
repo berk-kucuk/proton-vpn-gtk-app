@@ -40,16 +40,26 @@ class QuickConnectWidget(Gtk.Box):
         self.set_orientation(Gtk.Orientation.VERTICAL)
         self.connect_button = Gtk.Button(label="Quick Connect")
         self.connect_button.add_css_class("primary")
+        self.connect_button.add_css_class("vpn-quick-action")
+        self.connect_button.add_css_class("vpn-action-btn")
         self.connect_button.connect(
             "clicked", self._on_connect_button_clicked)
         self.connect_button.set_visible(False)
-        self.append(self.connect_button)
         self.disconnect_button = Gtk.Button(label="Disconnect")
         self.disconnect_button.add_css_class("danger")
+        self.disconnect_button.add_css_class("vpn-quick-action")
+        self.disconnect_button.add_css_class("vpn-action-btn")
         self.disconnect_button.connect(
             "clicked", self._on_disconnect_button_clicked)
         self.disconnect_button.set_visible(False)
-        self.append(self.disconnect_button)
+
+        self._button_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        self._button_row.set_homogeneous(True)
+        self._button_row.set_halign(Gtk.Align.CENTER)
+        self._button_row.set_name("quick-connect-button-row")
+        self._button_row.append(self.connect_button)
+        self._button_row.append(self.disconnect_button)
+        self.append(self._button_row)
 
     @property
     def connection_state(self):

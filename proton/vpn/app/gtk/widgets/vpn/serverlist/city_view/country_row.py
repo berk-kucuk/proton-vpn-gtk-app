@@ -43,6 +43,7 @@ class CountryRow(Gtk.Box):
 
     def __init__(self):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        self.add_css_class("country-row")
         self._country: Optional[Country] = None
         self._controller = None
         self._user_tier = None
